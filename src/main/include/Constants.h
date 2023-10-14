@@ -30,8 +30,9 @@ namespace IntakeConstants{
     cubeIntaking, 
     cubeOuttaking
   };
-  constexpr double normalOutputCurrent = 10.0;
+  constexpr double normalOutputCurrent = 30.0;
   constexpr int IntakeMotorID = 3;
+  constexpr int IntakeMotorCurrentLimit = 50;
 }
 
 namespace LEDConstants{

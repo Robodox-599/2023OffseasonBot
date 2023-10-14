@@ -8,7 +8,7 @@
 subsystem_Intake::subsystem_Intake(): 
                                       m_IntakeMotor{IntakeConstants::IntakeMotorID, rev::CANSparkMax::MotorType::kBrushless} 
 {
-  
+  m_IntakeMotor.SetSmartCurrentLimit(IntakeConstants::IntakeMotorCurrentLimit);
 }
 
 bool subsystem_Intake::CheckGamepieceIntake(){
@@ -26,19 +26,19 @@ void subsystem_Intake::setState(IntakeConstants::intakeState state){
   switch(state){
     case (IntakeConstants::coneIntaking):
     frc::SmartDashboard::SmartDashboard::PutString("Intake State", "coneIntaking");
-    m_IntakeMotor.Set(0.5);
+    m_IntakeMotor.Set(-0.5);
       break;
     case (IntakeConstants::cubeOuttaking):
     frc::SmartDashboard::SmartDashboard::PutString("Intake State", "cubeOuttaking");
-      m_IntakeMotor.Set(0.5);
+      m_IntakeMotor.Set(-0.5);
       break;
     case (IntakeConstants::cubeIntaking):
     frc::SmartDashboard::SmartDashboard::PutString("Intake State", "cubeIntaking");
-    m_IntakeMotor.Set(-0.5);
+    m_IntakeMotor.Set(0.5);
       break;
     case (IntakeConstants::coneOuttaking):
     frc::SmartDashboard::SmartDashboard::PutString("Intake State", "coneOuttaking");
-      m_IntakeMotor.Set(-0.5);
+      m_IntakeMotor.Set(0.5);
       break;
     case (IntakeConstants::hasCone):
     frc::SmartDashboard::SmartDashboard::PutString("Intake State", "hasCone");
@@ -55,7 +55,13 @@ void subsystem_Intake::setState(IntakeConstants::intakeState state){
   }
 }
 
+void subsystem_Intake::setBrakeMode(){
+  m_IntakeMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+}
 
+void subsystem_Intake::setCoastMode(){
+  m_IntakeMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+}
 
 // This method will be called once per scheduler run
 void subsystem_Intake::Periodic() {

@@ -19,6 +19,8 @@ class subsystem_Intake : public frc2::SubsystemBase {
   bool CheckGamepieceIntake();
   IntakeConstants::intakeState getState();
   void setState(IntakeConstants::intakeState state);
+  void setBrakeMode();
+  void setCoastMode();
   void Periodic() override;
 
  private:

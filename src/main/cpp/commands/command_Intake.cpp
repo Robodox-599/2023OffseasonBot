@@ -38,6 +38,7 @@ bool command_Intake::IsFinished() {
 
 // Called once the command ends or is interrupted.
 void command_Intake::End(bool interrupted) {
+  m_Intake->setBrakeMode();
   if (m_Intake->getState() == IntakeConstants::cubeIntaking){
     m_Intake->setState(IntakeConstants::hasCube);
   } else {

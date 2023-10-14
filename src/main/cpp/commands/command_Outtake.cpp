@@ -12,6 +12,7 @@ command_Outtake::command_Outtake(subsystem_Intake* intake, subsystem_LED* LED) :
 
 // Called when the command is initially scheduled.
 void command_Outtake::Initialize() {
+  m_Intake->setCoastMode();
   if(m_Intake->getState() == IntakeConstants::hasCube){
     m_Intake->setState(IntakeConstants::cubeOuttaking);
   } else {
