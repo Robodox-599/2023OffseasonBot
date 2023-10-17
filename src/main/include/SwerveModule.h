@@ -14,8 +14,10 @@
 #include <ctre/phoenix/sensors/AbsoluteSensorRange.h>
 #include <ctre/phoenix/sensors/SensorInitializationStrategy.h>
 #include <ctre/phoenix/sensors/SensorTimeBase.h>
-// #include <frc/math/controller/SimpleMotorFeedforward.h>
+// #include "HardwareConfig.h"
 
+// #include <frc/math/controller/SimpleMotorFeedforward.h>
+// #include <frc
 
 // #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 // #include "HardwareConfig.h"
@@ -56,6 +58,12 @@ class SwerveModule {
         units::degree_t getLastAngle();
         units::meters_per_second_t RPMToMPS(double Velocitycounts);
         // double MPSToNEO(units::meters_per_second_t Velocity);
+
+        void SetDriveCANSparkMaxBusUsage();
+        void SetAngleCANSparkMaxBusUsage();
+        void SetCANCoderBusUsage();
+        void SetCCUsage(int value);
+        void SetUsage(int value);
         
     private:
         
@@ -78,12 +86,16 @@ class SwerveModule {
         
         ctre::phoenix::sensors::CANCoderConfiguration m_SwerveCanCoderConfig;
         
+        SwerveConstants::CCUsage m_CCUsage = SwerveConstants::CCUsage::kAllCC;
+        SwerveConstants::Usage m_Usage = SwerveConstants::Usage::kAll;
+
+        bool m_EnableFollowing = false;
+
         // units::degree_t m_LastAngle;
         // ctre::phoenix::motorcontrol::can::WPI_TalonFX m_DriveMotor;
         // ctre::phoenix::motorcontrol::can::WPI_TalonFX m_AngleMotor;
         // ctre::phoenix::sensors::WPI_CANCoder m_AngleEncoder;
         
-        // HardwareConfig m_Settings;
 
         // rev::CANSparkMax SparkMax{1, rev::CANSparkMax::MotorType::kBrushless};
         // SparkMax.RestoreFactoryDefaults();

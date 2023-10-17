@@ -31,9 +31,25 @@ namespace OperatorConstants {
 
 constexpr int kDriverControllerPort = 0;
 
-}  // namespace OperatorConstants
+}
 
 namespace SwerveConstants{
+
+    enum CCUsage{
+        kAllCC,
+        kSensorDataOnly,
+        kFaultsOnly,
+        kMinimalCC
+    };
+
+    enum Usage{
+        kAll,
+        kPositionOnly,
+        kVeclocityOnly,
+        kMinimal
+    };
+
+
 
     constexpr int BalancekP = 0;
     constexpr int BalancekI = 0;
@@ -46,16 +62,18 @@ namespace SwerveConstants{
     constexpr double OpenLoopRamp = 0.25;
     constexpr double closedLoopRamp = 0.375;
 
-    constexpr double DriveGearRatio = 6.75;
+    constexpr double DriveGearRatio = 8.14;
+    // Use After Testing w/ 8.14 DGR
+    // constexpr double DriveGearRatio = 6.12;
     constexpr double AngleGearRatio = 150.0 / 7.0;
 
     
-    constexpr units::meter_t WheelCircumference{ 4.0_in * M_PI  };
+    constexpr units::meter_t WheelCircumference{ 3.75_in * M_PI  };
 
-    const frc::Translation2d m_FrontLeft{11.375_in, 11.375_in};
-    const frc::Translation2d m_FrontRight{11.375_in, -11.375_in};
-    const frc::Translation2d m_BackLeft{-11.375_in, 11.375_in};
-    const frc::Translation2d m_BackRight{-11.375_in, -11.375_in};
+    const frc::Translation2d m_FrontLeft{-9.988_in, 9.988_in};
+    const frc::Translation2d m_FrontRight{9.988_in, 9.988_in};
+    const frc::Translation2d m_BackLeft{-9.988_in, -9.988_in};
+    const frc::Translation2d m_BackRight{9.988_in, -9.988_in};
 
     const frc::SwerveDriveKinematics<4> m_kinematics{m_FrontLeft,
                                                m_FrontRight,
@@ -86,7 +104,6 @@ namespace SwerveConstants{
 
     constexpr units::second_t Timeout {0.1};
     
-
     /*setting up correct units for the simepleMotorFeedforward KS gain*/
     constexpr units::volt_t DriveKS{0.1646};
 
@@ -139,8 +156,8 @@ namespace SwerveConstants{
     constexpr bool DriveMotorInvert = false;
 
     /* Swerve Profiling values */
-    constexpr units::meters_per_second_t MaxSpeed{5.0};
-    constexpr units::degrees_per_second_t MaxAngularVelocity{360 * 1.25};
+    constexpr units::meters_per_second_t MaxSpeed{1.0};
+    constexpr units::degrees_per_second_t MaxAngularVelocity{360 * 0.25};
     constexpr bool IsFieldRelative = true;
     constexpr bool IsOpenLoop = false;  
 
@@ -169,33 +186,36 @@ namespace DPAD{
 };
 
 namespace FrontLeftModule{
-    constexpr int DriveMotorID = 0;
-    constexpr int AngleMotorID = 1;
+    constexpr int DriveMotorID = 3;
+    constexpr int AngleMotorID = 4;
     constexpr int CanCoderID = 2;
-    constexpr double AngleOffset = 352.617;
+    // constexpr double AngleOffset = 352.617;
+    constexpr double AngleOffset = 0.0;
     const double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset };
 }
 
 namespace FrontRightModule{
-    constexpr int DriveMotorID = 3;
-    constexpr int AngleMotorID = 4;
+    constexpr int DriveMotorID = 9;
+    constexpr int AngleMotorID = 2;
     constexpr int CanCoderID = 5;
-    constexpr double AngleOffset = 321.855;
+    // constexpr double AngleOffset = 321.855;
+    constexpr double AngleOffset = 0.0;
     const double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset};
 }
 namespace BackLeftModule{
-    constexpr int DriveMotorID = 6;
-    constexpr int AngleMotorID = 7;
+    constexpr int DriveMotorID = 5;
+    constexpr int AngleMotorID = 6;
     constexpr int CanCoderID = 8;
-    // constexpr auto AngleOffset = 266.045;
-    constexpr double AngleOffset = 97.822;
+    // constexpr double AngleOffset = 97.822;
+    constexpr double AngleOffset = 0.0;
     constexpr double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset};
 }
 namespace BackRightModule{
-    constexpr int DriveMotorID = 9;
-    constexpr int AngleMotorID = 10;
+    constexpr int DriveMotorID = 7;
+    constexpr int AngleMotorID = 8;
     constexpr int CanCoderID = 11;
-    constexpr double AngleOffset = 71.104;
+    // constexpr double AngleOffset = 71.104;
+    constexpr double AngleOffset = 0.0;
     const double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset};
 }
 

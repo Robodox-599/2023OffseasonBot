@@ -5,10 +5,23 @@
 #pragma once
 
 #include <frc2/command/CommandPtr.h>
+#include "Constants.h"
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+// #include "commands/command_ControllerVibrate.h"
+#include "frc/XboxController.h"
+#include "frc2/command/button/JoystickButton.h"
+#include <frc/Joystick.h>
 #include <frc2/command/button/CommandXboxController.h>
 
 #include "Constants.h"
 #include "subsystems/ExampleSubsystem.h"
+#include "subsystems/subsystem_DriveTrain.h"
+
+#include "commands/command_DriveAuton.h"
+#include "commands/command_DriveTeleop.h"
+#include "commands/command_Park.h"
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -27,7 +40,9 @@ class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   frc2::CommandXboxController m_driverController{
       OperatorConstants::kDriverControllerPort};
-
+  subsystem_DriveTrain m_Drive;
+  
+  frc::XboxController XboxDrive{ControllerConstants::XboxDriveID};
   // The robot's subsystems are defined here...
   ExampleSubsystem m_subsystem;
 
