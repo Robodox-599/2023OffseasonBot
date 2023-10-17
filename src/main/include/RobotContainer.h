@@ -10,6 +10,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/Commands.h>
 
 #include "frc/XboxController.h"
 #include "frc2/command/button/JoystickButton.h"
