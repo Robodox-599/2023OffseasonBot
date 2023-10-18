@@ -41,10 +41,46 @@ void RobotContainer::ConfigureBindings() {
   frc2::JoystickButton(&XboxDrive,
                         frc::XboxController::Button::kY)
       .OnTrue(m_Drive.ZeroGyroCommand());
-  
+
   frc2::JoystickButton(&XboxDrive,
+                        frc::XboxController::Button::kRightStick)
+      .OnTrue(m_LED.cycleLEDCommand());
+
+  frc2::JoystickButton(&Haperator,
+                        frc::XboxController::Button::kY)
+      .OnTrue(ElevatorMovements::ScoreHighCone(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+
+  frc2::JoystickButton(&Haperator,
+                        frc::XboxController::Button::kB)
+      .OnTrue(ElevatorMovements::ScoreMidCone(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+
+      frc2::JoystickButton(&Haperator,
+                        frc::XboxController::Button::kX)
+      .OnTrue(ElevatorMovements::ScoreHighCube(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+
+  frc2::JoystickButton(&Haperator,
                         frc::XboxController::Button::kA)
-      .OnTrue(command_Park(&m_Drive).ToPtr());
+      .OnTrue(ElevatorMovements::ScoreMidCube(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+
+  frc2::JoystickButton(&Haperator,
+                        frc::XboxController::Button::kLeftStick)
+      .OnTrue(ElevatorMovements::DoubleSubstationIntake(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+
+  frc2::JoystickButton(&Haperator,
+                        frc::XboxController::Button::kRightStick)
+      .OnTrue(ElevatorMovements::GroundIntake(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+    
+  frc2::JoystickButton(&Haperator, 
+                        frc::XboxController::Button::kStart)
+      .OnTrue(ElevatorMovements::ToStow(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+
+  frc2::JoystickButton(&Haperator, 
+                        frc::XboxController::Button::kBack)
+      .OnTrue(ElevatorMovements::ScoreHybrid(&m_Elevator, &m_Wrist, &m_Intake, &m_LED));
+  
+  // frc2::JoystickButton(&XboxDrive,
+  //                       frc::XboxController::Button::kA)
+  //     .OnTrue(command_Park(&m_Drive).ToPtr());
 }
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {

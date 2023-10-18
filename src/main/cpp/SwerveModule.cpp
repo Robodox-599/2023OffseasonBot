@@ -11,7 +11,7 @@ SwerveModule::SwerveModule(const double Module[] ):
                                                 m_DriveRelEncoder{m_DriveMotor.GetEncoder()},
                                                 m_AngleRelEncoder{m_AngleMotor.GetEncoder()}, 
                                                 // m_Feedforward{SwerveConstants::DriveKS, SwerveConstants::DriveKV, SwerveConstants::DriveKA}
-                                                m_Feedforward{SwerveConstants::DriveKS, SwerveConstants::DriveKV, SwerveConstants::DriveKA} {
+                                                m_Feedforward{SwerveConstants::DriveKS, SwerveConstants::DriveKV} {
     m_SwerveCanCoderConfig.absoluteSensorRange = ctre::phoenix::sensors::AbsoluteSensorRange::Unsigned_0_to_360;
     m_SwerveCanCoderConfig.sensorDirection = SwerveConstants::CanCoderInvert;
     m_SwerveCanCoderConfig.initializationStrategy = ctre::phoenix::sensors::SensorInitializationStrategy::BootToAbsolutePosition;
@@ -135,7 +135,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& DesiredState, bool Is
 }
 
 void SwerveModule::SetDesiredAngle(frc::Rotation2d Angle){
-    frc::SwerveModuleState TempState {0_mps, Angle};
+    frc::SwerveModuleState TempState {units::meters_per_second_t{0}, Angle};
     TempState = Optimize(TempState, GetState().angle);
     // m_AngleMotor.Set( ctre::phoenix::motorcontrol::ControlMode::Position,  );
     m_AnglePID.SetReference(DegreesToNEO(Angle.Degrees()), rev::ControlType::kPosition, 0);
@@ -155,14 +155,23 @@ frc::SwerveModuleState SwerveModule::Optimize(frc::SwerveModuleState DesiredStat
 
     units::meters_per_second_t TargetSpeed = DesiredState.speed;
     units::degree_t Delta = DesiredState.angle.Degrees() - ModReferenceAngle;
-    if(Delta >= 270_deg){
-        Delta -= 360_deg;
-    }else if(Delta <= -270_deg){
-        Delta += 360_deg;
+    // if(Delta >= 270_deg){
+    //     Delta -= 360_deg;
+    // }else if(Delta <= -270_deg){
+    //     Delta += 360_deg;
+    // }
+    // if( units::math::abs(Delta) > 90_deg){
+    //     TargetSpeed = - TargetSpeed;
+    //     Delta = Delta > 0_deg ? (Delta -= 180_deg) : ( Delta += 180_deg);
+    // }
+    if(Delta >= units::degree_t{270}){
+        Delta -= units::degree_t{360};
+    }else if(Delta <= -units::degree_t{270}){
+        Delta += units::degree_t{360};
     }
-    if( units::math::abs(Delta) > 90_deg){
+    if( fabs(Delta.value()) > 90){
         TargetSpeed = - TargetSpeed;
-        Delta = Delta > 0_deg ? (Delta -= 180_deg) : ( Delta += 180_deg);
+        Delta = Delta > units::degree_t{0} ? (Delta -= units::degree_t{180}) : ( Delta += units::degree_t{180});
     }
     units::degree_t TargetAngle = CurrentAngle.Degrees() + Delta;
     frc::SmartDashboard::SmartDashboard::PutNumber("Desired Angle(Discontinuous)", DesiredState.angle.Degrees().value());
@@ -207,7 +216,7 @@ double SwerveModule::DegreesToNEO(units::degree_t Degrees){
 
 units::meters_per_second_t SwerveModule::RPMToMPS(double VelocityCounts){
     double WheelRPM = VelocityCounts;
-    units::meters_per_second_t WheelMPS = (WheelRPM * SwerveConstants::WheelCircumference) / 60_s;
+    units::meters_per_second_t WheelMPS = (WheelRPM * SwerveConstants::WheelCircumference) / units::second_t{60};
     return WheelMPS;
 }
 

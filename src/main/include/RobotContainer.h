@@ -12,15 +12,21 @@
 #include "frc/XboxController.h"
 #include "frc2/command/button/JoystickButton.h"
 #include <frc/Joystick.h>
+#include <frc2/command/InstantCommand.h>
 #include <frc2/command/button/CommandXboxController.h>
 
 #include "Constants.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "subsystems/subsystem_DriveTrain.h"
+#include "subsystems/subsystem_Elevator.h"
+#include "subsystems/subsystem_Wrist.h"
 
 #include "commands/command_DriveAuton.h"
 #include "commands/command_DriveTeleop.h"
-#include "commands/command_Park.h"
+#include "commands/command_MoveElevator.h"
+#include "commands/command_MoveWrist.h"
+#include "commands/cGroup_Elevator.h"
+// #include "commands/command_Park.h"
 
 
 /**
@@ -38,13 +44,18 @@ class RobotContainer {
 
  private:
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  frc2::CommandXboxController m_driverController{
-      OperatorConstants::kDriverControllerPort};
-  subsystem_DriveTrain m_Drive;
-  
+  // frc2::CommandXboxController m_driverController{
+  //     OperatorConstants::kDriverControllerPort};
   frc::XboxController XboxDrive{ControllerConstants::XboxDriveID};
+  frc::XboxController Haperator{ControllerConstants::XboxHaperatorID};
+  subsystem_DriveTrain m_Drive;
+  subsystem_Elevator m_Elevator;
+  subsystem_Wrist m_Wrist;
   // The robot's subsystems are defined here...
   ExampleSubsystem m_subsystem;
+  subsystem_Intake m_Intake;
+  subsystem_LED m_LED;
+  frc2::InstantCommand m_cycleLEDs{[this] { m_LED.cycleLED(); }, {&m_LED}};
 
   void ConfigureBindings();
 };

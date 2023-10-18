@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
-#include <units/length.h>
-#include <units/voltage.h>
-#include <units/velocity.h>
-#include <units/time.h>
-#include <units/acceleration.h>
-#include <units/angular_acceleration.h>
+#include "units/length.h"
+#include "units/voltage.h"
+#include "units/velocity.h"
+#include "units/angle.h"
+#include "units/time.h"
+#include "units/acceleration.h"
+#include "units/angular_acceleration.h"
 #include <frc/controller/ArmFeedforward.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
@@ -89,7 +90,7 @@ namespace SwerveConstants{
         NONLINEAR = 2
     };
 
-    
+
     //Tip Correction PID (PITCH)
     constexpr double PitchKP = 0.1;
     constexpr double PitchKD = 0.0;
@@ -156,8 +157,8 @@ namespace SwerveConstants{
 
     /* Swerve Profiling values */
     constexpr units::meters_per_second_t MaxSpeed{1.0};
-    constexpr units::degrees_per_second_t MaxAngularVelocity{360 * 0.25};
-    constexpr bool IsFieldRelative = true;
+    constexpr units::degrees_per_second_t MaxAngularVelocity{360.0 * 0.25};
+    constexpr bool IsFieldRelative = false;
     constexpr bool IsOpenLoop = false;  
 
 }
@@ -243,11 +244,85 @@ namespace AutoConstants{
 
     const frc2::PIDController ZPID{ AngleKP, 0.0, AngleKD };
 
-    const frc::ProfiledPIDController<units::angle::radian> ThetaPID{AngleKP, 
+    const frc::ProfiledPIDController<units::radian> ThetaPID{AngleKP, 
                                               0.0, 
                                               AngleKD, 
-                                              frc::TrapezoidProfile<units::radians>::Constraints{MaxAngularSpeed,
+                                              frc::TrapezoidProfile<units::radian>::Constraints{MaxAngularSpeed,
                                                                                                  MaxAngularAccel}};
+}
+
+namespace ElevatorConstants
+{
+    constexpr int kElevatorID = 10;
+    constexpr int kElevatorFollowerID = 11;
+    constexpr int kEncoderID = 0;
+   
+    constexpr double kElevatorStow = 0;
+    constexpr double kElevatorScoreMidCube = 24.951;
+    constexpr double kElevatorScoreMidCone = 24.951;
+    constexpr double kElevatorScoreHighCube = 44.265;
+    constexpr double kElevatorScoreHighCone = 53.697;
+    constexpr double kElevatorScoreHybrid = 0;
+    constexpr double kElevatorIntakeDoubleSubstation = 0;
+    // constexpr double kElevatorMotionAcceleration = 0;
+    // constexpr double kElevatorCruiseVelocity = 0;
+    constexpr double kElevatorP = 0.1;
+    constexpr double kElevatorI = 0;
+    constexpr double kElevatorD = 0.0005;
+    constexpr double kBufferZone = 0;
+    constexpr units::time::second_t TargetTime{0.5};
+
+    constexpr double kManualSpeed = 1;
+    constexpr double ElevatorThreshold = -14.0; //this prob needa be changed
+    constexpr double MaxTimeAllowed = 0.0; //change this
+    
+}
+
+namespace WristConstants {
+    constexpr double kWristI = 0.0;
+    constexpr double kWristP = 0.05;
+    constexpr double kWristD = 0.0005;
+    constexpr double start_pos = -0.5;// hard stop pos
+    constexpr double bufferZone = 0.0;//still needs defining
+    constexpr double stepperConstant = 0.1;
+    constexpr units::time::second_t TargetTime{0.1};
+    constexpr int motorID = 12;
+    constexpr double WristThreshold = -14.0;
+
+    constexpr double HighConePos = 14.91;//125.81
+    //needs defining
+    constexpr double HighCubePos = 7.96;//67.16
+    constexpr double MidConePos = 9.96;//84.03
+    constexpr double MidCubePos = 9.96;
+    constexpr double SubstationPos = 0.0;//fix
+    constexpr double GroundIntake = 0.0;//fix
+    // constexpr double WristZero = -0.5;//fix    !!!this is star_pos
+}
+
+namespace IntakeConstants{
+    enum intakeState{
+    noGamepiece,
+    hasCone,
+    hasCube,
+    coneIntaking, 
+    coneOuttaking, 
+    cubeIntaking, 
+    cubeOuttaking
+  };
+  constexpr double normalOutputCurrent = 30.0;
+  constexpr int IntakeMotorID = 13;
+  constexpr int IntakeMotorCurrentLimit = 50;
+}
+
+namespace LEDConstants{
+    enum LEDState{
+        Standby, Yellow, Purple, Error, Off
+    };
+    constexpr units::second_t Timeout{ 10.0 };
+    
+    constexpr int CANdleID = 20;
+
+    constexpr units::second_t IntakeFlashTime{1.0};
 }
 
 namespace ControllerConstants{
@@ -255,7 +330,7 @@ namespace ControllerConstants{
     constexpr double TriggerActivate = 0.8;
     
     constexpr int XboxDriveID = 0;
-    constexpr int XboxYaperatorID = 1;
+    constexpr int XboxHaperatorID = 1;
 
     constexpr int xboxLXAxis = 0;
     constexpr int xboxLYAxis = 1;

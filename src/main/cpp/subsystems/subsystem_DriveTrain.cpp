@@ -173,7 +173,7 @@ frc::Pose2d subsystem_DriveTrain::GetPose(){
 frc::Rotation2d subsystem_DriveTrain::GetYaw(){
     
     units::degree_t Yaw{ m_Gyro.GetYaw() };
-    return (SwerveConstants::InvertGyro) ? frc::Rotation2d{360_deg - Yaw} : frc::Rotation2d{Yaw}; 
+    return (SwerveConstants::InvertGyro) ? frc::Rotation2d{units::degree_t{360 - Yaw.value()}} : frc::Rotation2d{Yaw}; 
 }
 
 frc::Rotation2d subsystem_DriveTrain::GetPoseYaw(){

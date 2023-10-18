@@ -6,7 +6,8 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/subsystem_DriveTrain.h"
+#include <frc/Timer.h>
+#include "subsystems/subsystem_LEDs.h"
 
 /**
  * An example command.
@@ -15,10 +16,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class command_Park
-    : public frc2::CommandHelper<frc2::CommandBase, command_Park> {
+class command_FlashLEDs
+    : public frc2::CommandHelper<frc2::CommandBase, command_FlashLEDs> {
  public:
-  command_Park(subsystem_DriveTrain* DriveTrain);
+  command_FlashLEDs(subsystem_LED* LED, units::time::second_t seconds);
 
   void Initialize() override;
 
@@ -27,8 +28,9 @@ class command_Park
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-  
-  private:
-    subsystem_DriveTrain* m_DriveTrain;
-    
+
+  private: 
+  frc::Timer m_Timer{};
+  subsystem_LED* m_LED;
+  units::time::second_t m_seconds;
 };

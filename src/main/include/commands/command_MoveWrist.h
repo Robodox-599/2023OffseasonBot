@@ -6,7 +6,8 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/subsystem_DriveTrain.h"
+#include "subsystems/subsystem_Wrist.h"
+#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -15,10 +16,13 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class command_Park
-    : public frc2::CommandHelper<frc2::CommandBase, command_Park> {
+class command_MoveWrist
+    : public frc2::CommandHelper<frc2::CommandBase, command_MoveWrist> {
  public:
-  command_Park(subsystem_DriveTrain* DriveTrain);
+  command_MoveWrist(subsystem_Wrist* Wrist, 
+                  std::function<double()> EncPosition, 
+                  std::function<bool()> IsWait, 
+                  std::function<double()> Threshold); //unnessary im just too lazy to change it everywhre
 
   void Initialize() override;
 
@@ -27,8 +31,11 @@ class command_Park
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-  
-  private:
-    subsystem_DriveTrain* m_DriveTrain;
-    
+
+  private: 
+   subsystem_Wrist* m_Wrist;
+   std::function<double()> m_EncPosition;
+   std::function<bool()> m_IsWait;
+   std::function<double()> m_Threshold;
+   frc::Timer m_Timer{};
 };
