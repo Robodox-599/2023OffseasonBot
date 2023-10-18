@@ -14,6 +14,7 @@
 #include <ctre/phoenix/sensors/AbsoluteSensorRange.h>
 #include <ctre/phoenix/sensors/SensorInitializationStrategy.h>
 #include <ctre/phoenix/sensors/SensorTimeBase.h>
+
 // #include "HardwareConfig.h"
 
 // #include <frc/math/controller/SimpleMotorFeedforward.h>
@@ -64,7 +65,8 @@ class SwerveModule {
         void SetCANCoderBusUsage();
         void SetCCUsage(int value);
         void SetUsage(int value);
-        
+
+
     private:
         
         rev::CANSparkMax m_DriveMotor;

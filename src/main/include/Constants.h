@@ -89,10 +89,7 @@ namespace SwerveConstants{
         NONLINEAR = 2
     };
 
-
-
-
-
+    
     //Tip Correction PID (PITCH)
     constexpr double PitchKP = 0.1;
     constexpr double PitchKD = 0.0;
@@ -105,22 +102,24 @@ namespace SwerveConstants{
     constexpr units::second_t Timeout {0.1};
     
     /*setting up correct units for the simepleMotorFeedforward KS gain*/
-    constexpr units::volt_t DriveKS{0.1646};
+    constexpr units::volt_t DriveKS{0.0};
 
-    constexpr units::volt_t VoltageKV{2.239};
-    constexpr units::foot_t FeetKV{1.0};
-    constexpr units::second_t TimeKV{1.0};
+    constexpr units::volt_t VoltageKV{0.0};
+    constexpr units::foot_t FeetKV{0.0};
+    constexpr units::second_t TimeKV{0.0};
     /*Setting up correct units for the simpleMotorFeedforward KV gain
     Change VoltageKV when wanting to change 
     the KV gain*/
-    constexpr auto DriveKV = VoltageKV * TimeKV / FeetKV;
+    // constexpr auto DriveKV = VoltageKV * TimeKV / FeetKV;
+    constexpr auto DriveKV = FeetKV.value() == 0.0 ? VoltageKV * TimeKV / units::foot_t{0.01} : VoltageKV * TimeKV / FeetKV;
 
-    constexpr units::volt_t VoltageKA{0.73308};
-    constexpr units::foot_t FeetKA{1.0};
-    constexpr units::second_t TimeKA{1.0};
+    constexpr units::volt_t VoltageKA{0.0};
+    constexpr units::foot_t FeetKA{0.0};
+    constexpr units::second_t TimeKA{0.0};
     /*Setting up correct units for the simpleMotorFeedforward KA gain
     Change VoltageKA when wanting to change the KA gain*/
-    constexpr auto DriveKA = VoltageKA * (TimeKA * TimeKA) / FeetKA; 
+    // constexpr auto DriveKA = VoltageKA * (TimeKA * TimeKA) / FeetKA; 
+    constexpr auto DriveKA = FeetKA.value() == 0.0 ? VoltageKA * (TimeKA * TimeKA) / units::foot_t{0.01} : VoltageKA * (TimeKA * TimeKA) / FeetKA;
     constexpr units::volt_t kNominal {12.0};
     constexpr double kNominalDouble = 12.0;
 
@@ -190,7 +189,7 @@ namespace FrontLeftModule{
     constexpr int AngleMotorID = 4;
     constexpr int CanCoderID = 2;
     // constexpr double AngleOffset = 352.617;
-    constexpr double AngleOffset = 0.0;
+    constexpr double AngleOffset = 205;
     const double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset };
 }
 
@@ -199,23 +198,25 @@ namespace FrontRightModule{
     constexpr int AngleMotorID = 2;
     constexpr int CanCoderID = 5;
     // constexpr double AngleOffset = 321.855;
-    constexpr double AngleOffset = 0.0;
+    constexpr double AngleOffset = 290;
     const double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset};
 }
+
 namespace BackLeftModule{
     constexpr int DriveMotorID = 5;
     constexpr int AngleMotorID = 6;
     constexpr int CanCoderID = 8;
     // constexpr double AngleOffset = 97.822;
-    constexpr double AngleOffset = 0.0;
+    constexpr double AngleOffset = 49;
     constexpr double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset};
 }
+
 namespace BackRightModule{
     constexpr int DriveMotorID = 7;
     constexpr int AngleMotorID = 8;
     constexpr int CanCoderID = 11;
     // constexpr double AngleOffset = 71.104;
-    constexpr double AngleOffset = 0.0;
+    constexpr double AngleOffset = 41;
     const double Constants[4] = { DriveMotorID, AngleMotorID, CanCoderID, AngleOffset};
 }
 

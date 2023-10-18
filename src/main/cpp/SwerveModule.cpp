@@ -10,8 +10,8 @@ SwerveModule::SwerveModule(const double Module[] ):
                                                 m_AnglePID{m_AngleMotor.GetPIDController()},
                                                 m_DriveRelEncoder{m_DriveMotor.GetEncoder()},
                                                 m_AngleRelEncoder{m_AngleMotor.GetEncoder()}, 
-                                                m_Feedforward{SwerveConstants::DriveKS, SwerveConstants::DriveKV, SwerveConstants::DriveKA}
-{
+                                                // m_Feedforward{SwerveConstants::DriveKS, SwerveConstants::DriveKV, SwerveConstants::DriveKA}
+                                                m_Feedforward{SwerveConstants::DriveKS, SwerveConstants::DriveKV, SwerveConstants::DriveKA} {
     m_SwerveCanCoderConfig.absoluteSensorRange = ctre::phoenix::sensors::AbsoluteSensorRange::Unsigned_0_to_360;
     m_SwerveCanCoderConfig.sensorDirection = SwerveConstants::CanCoderInvert;
     m_SwerveCanCoderConfig.initializationStrategy = ctre::phoenix::sensors::SensorInitializationStrategy::BootToAbsolutePosition;
@@ -36,10 +36,10 @@ SwerveModule::SwerveModule(const double Module[] ):
     // m_AnglePID.SetD(SwerveConstants::AngleKD, 0);
     // m_AnglePID.SetFF(SwerveConstants::AngleKF, 0);
 
-    m_AnglePID.SetP(0.02, 0);
+    m_AnglePID.SetP(0.05, 0);
     m_AnglePID.SetI(0, 0);
     m_AnglePID.SetD(0, 0);
-    m_AnglePID.SetFF(0, 0);
+    m_AnglePID.SetFF(SwerveConstants::AngleKF, 0);
 
     m_AngleMotor.EnableVoltageCompensation(SwerveConstants::kNominalDouble);
     m_AngleMotor.BurnFlash();
@@ -99,7 +99,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& DesiredState, bool Is
     }
     units::meters_per_second_t minSpeed = (SwerveConstants::MaxSpeed * 0.01);
 
-    units::degree_t Angle = (units::math::abs(DesiredState.speed) <= minSpeed  ) ? m_LastAngle: DesiredState.angle.Degrees();
+    units::degree_t Angle = (fabs(DesiredState.speed.value()) <= minSpeed.value()  ) ? m_LastAngle: DesiredState.angle.Degrees();
     m_AnglePID.SetReference(DegreesToNEO(Angle), rev::ControlType::kPosition, 0);
      // m_AngleMotor.Set( ctre::phoenix::motorcontrol::ControlMode::Position,  );
     m_LastAngle = Angle;
@@ -108,18 +108,22 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& DesiredState, bool Is
     {
     case FrontLeftModule::AngleMotorID:
         frc::SmartDashboard::SmartDashboard::PutNumber("FL Last Angle", m_LastAngle.value());
+        frc::SmartDashboard::SmartDashboard::PutNumber("FL CANCoder Angle", m_AngleCANcoder.GetPosition());
         break;
     
     case FrontRightModule::AngleMotorID:
         frc::SmartDashboard::SmartDashboard::PutNumber("FR Last Angle", m_LastAngle.value());
+        frc::SmartDashboard::SmartDashboard::PutNumber("FR CANCoder Angle", m_AngleCANcoder.GetPosition());
         break;
 
     case BackLeftModule::AngleMotorID:
         frc::SmartDashboard::SmartDashboard::PutNumber("BL Last Angle", m_LastAngle.value());
+        frc::SmartDashboard::SmartDashboard::PutNumber("BL CANCoder Angle", m_AngleCANcoder.GetPosition());
         break;
 
     case BackRightModule::AngleMotorID:
         frc::SmartDashboard::SmartDashboard::PutNumber("BR Last Angle", m_LastAngle.value());
+        frc::SmartDashboard::SmartDashboard::PutNumber("BR CANCoder Angle", m_AngleCANcoder.GetPosition());
         break;
     
     default:
@@ -171,7 +175,9 @@ void SwerveModule::ResetToAbsolute(){
 }
 
 frc::Rotation2d SwerveModule::GetCANCoder(){
-    return frc::Rotation2d( units::degree_t( m_AngleCANcoder.GetAbsolutePosition() ) );
+    double Pos = m_AngleCANcoder.GetPosition();
+    frc::SmartDashboard::SmartDashboard::PutNumber("Error Code", m_AngleCANcoder.GetLastError());
+    return frc::Rotation2d( units::degree_t( Pos) );
 }
 
 frc::SwerveModulePosition SwerveModule::GetPosition(){
