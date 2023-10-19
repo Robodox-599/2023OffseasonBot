@@ -66,8 +66,16 @@ void subsystem_DriveTank::Periodic() {
        // frc::SmartDashboard::SmartDashboard::PutBoolean("went into if statement", true);
     }
 
-
+if (DesiredTurnPosition>0){
+m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput+(0.01*DesiredTurnPosition));
+m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput-(0.01*DesiredTurnPosition));
+} else if (DesiredTurnPosition<0){
+m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput-(0.01*DesiredTurnPosition));
+m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput+(0.01*DesiredTurnPosition));
+}else {
     m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput);
     m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput);
+}
+
 
 }
