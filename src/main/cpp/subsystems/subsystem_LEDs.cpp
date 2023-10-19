@@ -81,11 +81,12 @@ void subsystem_LED::Periodic() {
             case(LEDConstants::LEDState::Yellow):
                 m_CANdle.SetLEDs(255, 255, 0);
                 break;
-            case(LEDConstants::LEDState::Error):
-                m_CANdle.SetLEDs(0, 255, 0);
-                break;
             case(LEDConstants::LEDState::Off):
                 m_CANdle.SetLEDs(0, 0, 255);
+                break;
+            case(LEDConstants::LEDState::Error):
+            default:
+                m_CANdle.SetLEDs(0, 255, 0);
                 break;
         }
     }

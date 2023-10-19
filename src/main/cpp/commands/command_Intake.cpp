@@ -33,7 +33,7 @@ if (!(m_Intake->CheckGamepieceIntake())){
 
 // Returns true when the command should end.
 bool command_Intake::IsFinished() {
-  return m_Timer.Get() > 0.05_s;
+  return m_Timer.Get() > 0.15_s;
 }
 
 // Called once the command ends or is interrupted.

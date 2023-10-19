@@ -30,17 +30,15 @@ namespace IntakeConstants{
     cubeIntaking, 
     cubeOuttaking
   };
-  constexpr double normalOutputCurrent = 30.0;
-  constexpr int IntakeMotorID = 3;
+  constexpr double normalOutputCurrent = 10.0;
+  constexpr int IntakeMotorID = 13;
   constexpr int IntakeMotorCurrentLimit = 50;
 }
 
 namespace LEDConstants{
     enum LEDState{
         Standby, Yellow, Purple, Error, Off
-    };
-    constexpr units::second_t Timeout{ 10.0 };
-    
+    };    
     constexpr int CANdleID = 20;
 
     constexpr units::second_t IntakeFlashTime{1.0};
