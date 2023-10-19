@@ -54,7 +54,7 @@ namespace WristPositions{
     constexpr double HighCubePos = 7.96;//67.16
     constexpr double MidConePos = 9.96;//84.03
     constexpr double MidCubePos = 9.96;
-    constexpr double SubstationPos = 0.0;//fix
-    constexpr double GroundIntake = 0.0;//fix
+    constexpr double SubstationPos = 10.9048;//fix
+    constexpr double GroundIntake = 16.809;//fix
     // constexpr double WristZero = -0.5;//fix    !!!this is star_pos
 }
