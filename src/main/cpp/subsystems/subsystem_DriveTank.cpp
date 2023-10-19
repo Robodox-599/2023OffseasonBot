@@ -65,17 +65,19 @@ void subsystem_DriveTank::Periodic() {
         m_RightFrontMotorPID.SetReference(DesiredTurnPosition, rev::CANSparkMaxLowLevel::ControlType::kPosition, 0);
        // frc::SmartDashboard::SmartDashboard::PutBoolean("went into if statement", true);
     }
-
+//change 0.01 if u want to have less differential-ness !!!!!
 if (DesiredTurnPosition>0){
-m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput+(0.01*DesiredTurnPosition));
-m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput-(0.01*DesiredTurnPosition));
+m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput+(0.01*DesiredTurnPosition/MotorConstants::TurnGearRatio ));
+m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput-(0.01*DesiredTurnPosition/MotorConstants::TurnGearRatio));
 } else if (DesiredTurnPosition<0){
-m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput-(0.01*DesiredTurnPosition));
-m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput+(0.01*DesiredTurnPosition));
+m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput-(0.01*DesiredTurnPosition/MotorConstants::TurnGearRatio));
+m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput+(0.01*DesiredTurnPosition/MotorConstants::TurnGearRatio));
 }else {
     m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput);
     m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput);
 }
-
+//  m_LeftBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput);
+//     m_RightBackMotor.Set(DesiredSpeed*MotorConstants::PercentMaxOutput);
+//!!!!!!! if diffy dont work^
 
 }
