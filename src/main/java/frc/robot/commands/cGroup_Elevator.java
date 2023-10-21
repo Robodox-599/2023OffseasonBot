@@ -30,7 +30,8 @@ public class cGroup_Elevator{
 
   public static Command scoreHighCube(subsystem_Elevator elevator, subsystem_Wrist wrist, subsystem_Intake intake, subsystem_LEDs led){
     return Commands.sequence(
-      new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
+      // new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
+      wrist.zeroWrist(),
       new command_MoveElevator(elevator, () -> {return ElevatorConstants.kElevatorScoreHighCube;}, () -> {return false;}, () -> {return ElevatorConstants.elevatorThreshold;}),
       new command_MoveWrist(wrist, () -> {return WristConstants.highCubePos;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
       new command_Outtake(intake, led)
@@ -39,7 +40,7 @@ public class cGroup_Elevator{
 
   public static Command scoreMidCube(subsystem_Elevator elevator, subsystem_Wrist wrist, subsystem_Intake intake, subsystem_LEDs led){
     return Commands.sequence(
-      new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
+      wrist.zeroWrist(),
       new command_MoveElevator(elevator, () -> {return ElevatorConstants.kElevatorScoreMidCube;}, () -> {return false;}, () -> {return ElevatorConstants.elevatorThreshold;}),
       new command_MoveWrist(wrist, () -> {return WristConstants.midCubePos;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
       new command_Outtake(intake, led)

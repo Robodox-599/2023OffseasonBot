@@ -1,10 +1,14 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import frc.lib.config.SwerveModuleConstants;
 
@@ -89,6 +93,7 @@ public final class Constants {
       public static final int driveMotorID = 3;
       public static final int angleMotorID = 4;
       public static final int canCoderID = 2;
+      // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(218.057);
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
       public static final SwerveModuleConstants constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -99,6 +104,7 @@ public final class Constants {
       public static final int driveMotorID = 9;
       public static final int angleMotorID = 2;
       public static final int canCoderID = 5;
+      // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(3.867);
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
       public static final SwerveModuleConstants constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -109,6 +115,7 @@ public final class Constants {
       public static final int driveMotorID = 5;
       public static final int angleMotorID = 6;
       public static final int canCoderID = 8;
+      // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(181.757);
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
       public static final SwerveModuleConstants constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -119,6 +126,7 @@ public final class Constants {
       public static final int driveMotorID = 7;
       public static final int angleMotorID = 8;
       public static final int canCoderID = 11;
+      // public static final Rotation2d angleOffset = Rotation2d.fromDegrees(152.534);
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.0);
       public static final SwerveModuleConstants constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
@@ -126,19 +134,29 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+    public static final double kMaxAngularSpeedRadiansPerSecond = 6;
+    public static final double kMaxAngularSpeedRadiansPerSecondSquared = 3;
 
     public static final double kPXController = 1;
     public static final double kPYController = 1;
-    public static final double kPThetaController = 1;
+    public static final double kPThetaController = 3;
+    
+    public static final PIDController xPIDController = new PIDController(kPXController, 0.0, 0.0);
+    public static final PIDController yPIDController = new PIDController(kPYController, 0.0, 0.0);
+    public static final PIDController zPIDController = new PIDController(kPThetaController, 0.0, 0.0);
+    
+    public static final Constraints constraints = new Constraints(kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
     // Constraint for the motion profilied robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+            kMaxAngularSpeedRadiansPerSecond, 
+            kMaxAngularSpeedRadiansPerSecondSquared
+          );
+    
+    public static final ProfiledPIDController thetaPIDController = new ProfiledPIDController(kPThetaController, 0.0, 0.0, constraints);
   }
 
   public static final class ElevatorConstants {
@@ -222,7 +240,7 @@ public final class Constants {
     public static enum LEDState{
       standby, yellow, purple, error, off
     };    
-    public static final int candleID = 20;
+    public static final int candleID = 21;
     public static final int intakeFlashTimeSeconds = 1;
   }
 

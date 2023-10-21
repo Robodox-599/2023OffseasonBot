@@ -24,7 +24,7 @@ import frc.robot.Constants.ControllerConstants;
 public class RobotContainer {
   /* Controllers */
   private final Joystick driveRad = new Joystick(ControllerConstants.driveRadID);
-  private final Joystick hahPerator = new Joystick(ControllerConstants.xboxHaperatorID);
+  private final Joystick haPerator = new Joystick(ControllerConstants.xboxHaperatorID);
 
   /* Drive Controls */
   private final int translationAxis = ControllerConstants.xboxLYAxis;
@@ -33,12 +33,15 @@ public class RobotContainer {
 
   private final int zeroGyroButton = ControllerConstants.xboxY;
   private final int robotCentricButton = ControllerConstants.xboxLB;
+  private final int zeroAngleButton = ControllerConstants.xboxA;
 
   /* Driver Buttons */
   private final JoystickButton zeroGyro =
       new JoystickButton(driveRad, zeroGyroButton);
   private final JoystickButton robotCentric =
       new JoystickButton(driveRad, robotCentricButton);
+  private final JoystickButton zeroAngle = 
+      new JoystickButton(driveRad, zeroAngleButton);
 
   /* Operator Controls */
   private final int wristAxis = ControllerConstants.xboxLYAxis;
@@ -56,28 +59,28 @@ public class RobotContainer {
   
   /* Operator Buttons */
   private final JoystickButton highCone =
-      new JoystickButton(hahPerator, highConeButton
+      new JoystickButton(haPerator, highConeButton
       );
   private final JoystickButton midCone =
-      new JoystickButton(hahPerator, midConeButton
+      new JoystickButton(haPerator, midConeButton
       );
   private final JoystickButton highCube =
-      new JoystickButton(hahPerator, highCubeButton
+      new JoystickButton(haPerator, highCubeButton
       );
   private final JoystickButton midCube =
-      new JoystickButton(hahPerator, midCubeButton
+      new JoystickButton(haPerator, midCubeButton
       );
   private final JoystickButton toggleLED =
-      new JoystickButton(hahPerator, toggleLEDButton
+      new JoystickButton(haPerator, toggleLEDButton
       );
   private final JoystickButton doubleSub =
-      new JoystickButton(hahPerator, doubleSubButton
+      new JoystickButton(haPerator, doubleSubButton
       );
   private final JoystickButton groundIntake =
-      new JoystickButton(hahPerator, groundIntakeButton
+      new JoystickButton(haPerator, groundIntakeButton
       );
   private final JoystickButton stow =
-      new JoystickButton(hahPerator, stowButton
+      new JoystickButton(haPerator, stowButton
       );
 
   /* Subsystems */
@@ -97,15 +100,15 @@ public class RobotContainer {
             () -> {return -driveRad.getRawAxis(rotationAxis);},
             () -> {return robotCentric.getAsBoolean();}));
 
-    s_Elevator.setDefaultCommand(
-        new command_MoveElevatorManually(s_Elevator, 
-        () -> {return -hahPerator.getRawAxis(elevatorAxis);})
-    );
+    // s_Elevator.setDefaultCommand(
+    //     new command_MoveElevatorManually(s_Elevator, 
+    //     () -> {return -haPerator.getRawAxis(elevatorAxis);})
+    // );
 
-    s_Wrist.setDefaultCommand(
-      new command_MoveWristManually(s_Wrist, 
-      () -> {return -hahPerator.getRawAxis(wristAxis);})
-    );
+    // s_Wrist.setDefaultCommand(
+    //   new command_MoveWristManually(s_Wrist, 
+    //   () -> {return -haPerator.getRawAxis(wristAxis);})
+    // );
     
     // Configure the button bindings
     configureButtonBindings();
@@ -137,6 +140,8 @@ public class RobotContainer {
     groundIntake.onTrue(cGroup_Elevator.groundIntake(s_Elevator, s_Wrist, s_Intake, s_LED));
 
     stow.onTrue(cGroup_Elevator.toStow(s_Elevator, s_Wrist));
+
+    zeroAngle.onTrue(s_Swerve.zeroModuleAngles());
     }
 
   /**

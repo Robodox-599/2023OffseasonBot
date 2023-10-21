@@ -49,8 +49,8 @@ public class subsystem_Elevator extends SubsystemBase {
     m_ElevatorMotor.setInverted(true);
     m_ElevatorFollower.setInverted(true);
 
-    m_ElevatorMotor.setSmartCurrentLimit(5, 35, 117);
-    m_ElevatorFollower.setSmartCurrentLimit(5, 35, 117);
+    m_ElevatorMotor.setSmartCurrentLimit(5, 40, 117);
+    m_ElevatorFollower.setSmartCurrentLimit(5, 40, 117);
 
     m_ElevatorFollower.follow(m_ElevatorMotor);
     

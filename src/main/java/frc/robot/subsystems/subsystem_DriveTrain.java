@@ -11,8 +11,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Swerve;
 
 public class subsystem_DriveTrain extends SubsystemBase {
   private final Pigeon2 gyro;
@@ -78,6 +80,15 @@ public class subsystem_DriveTrain extends SubsystemBase {
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(desiredStates[mod.moduleNumber], false);
     }
+  }
+
+  public CommandBase zeroModuleAngles(){
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    states[0] = new SwerveModuleState(1.0, Rotation2d.fromDegrees(0.0));
+    states[1] = new SwerveModuleState(1.0, Rotation2d.fromDegrees(0.0));
+    states[2] = new SwerveModuleState(1.0, Rotation2d.fromDegrees(0.0));
+    states[3] = new SwerveModuleState(1.0, Rotation2d.fromDegrees(0.0));
+    return this.runOnce(() -> setModuleStates(states));
   }
 
   public Pose2d getPose() {

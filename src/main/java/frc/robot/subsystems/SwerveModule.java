@@ -20,6 +20,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public class SwerveModule {
   public int moduleNumber;
@@ -109,12 +110,14 @@ public class SwerveModule {
 
   private void configAngleEncoder() {
     angleEncoder.configFactoryDefault();
+    Commands.waitSeconds(0.2);
     CANCoderUtil.setCANCoderBusUsage(angleEncoder, CCUsage.kMinimal);
     angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
   }
 
   private void configAngleMotor() {
     angleMotor.restoreFactoryDefaults();
+    Commands.waitSeconds(0.2);
     CANSparkMaxUtil.setCANSparkMaxBusUsage(angleMotor, Usage.kPositionOnly);
     angleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
     angleMotor.setInverted(Constants.Swerve.angleInvert);
@@ -125,12 +128,15 @@ public class SwerveModule {
     angleController.setD(Constants.Swerve.angleKD);
     angleController.setFF(Constants.Swerve.angleKFF);
     angleMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
+    Commands.waitSeconds(0.2);
     angleMotor.burnFlash();
+    Commands.waitSeconds(0.2);
     resetToAbsolute();
   }
 
   private void configDriveMotor() {
     driveMotor.restoreFactoryDefaults();
+    Commands.waitSeconds(0.2);
     CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kAll);
     driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
     driveMotor.setInverted(Constants.Swerve.driveInvert);
@@ -142,7 +148,9 @@ public class SwerveModule {
     driveController.setD(Constants.Swerve.angleKD);
     driveController.setFF(Constants.Swerve.angleKFF);
     driveMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
+    Commands.waitSeconds(0.2);
     driveMotor.burnFlash();
+    Commands.waitSeconds(0.2);
     driveEncoder.setPosition(0.0);
   }
 
