@@ -96,8 +96,10 @@ public class RobotContainer {
         new command_DriveTeleop(
             s_Swerve,
             () -> {return -driveRad.getRawAxis(translationAxis);},
-            () -> {return -driveRad.getRawAxis(strafeAxis);},
-            () -> {return -driveRad.getRawAxis(rotationAxis);},
+            // () -> {return -driveRad.getRawAxis(strafeAxis);},
+            () -> {return 0.0;},
+            // () -> {return -driveRad.getRawAxis(rotationAxis);},
+            () -> {return 0.0;},
             () -> {return robotCentric.getAsBoolean();}));
 
     // s_Elevator.setDefaultCommand(
