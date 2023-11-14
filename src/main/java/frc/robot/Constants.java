@@ -62,10 +62,10 @@ public final class Constants {
    
     public static final double kElevatorStow = 0;
 
-    public static final double kElevatorScoreMidCube = 24.951/4;
-    public static final double kElevatorScoreMidCone = 24.951/4;
-    public static final double kElevatorScoreHighCube = 44.265/4;
-    public static final double kElevatorScoreHighCone = 53.697/4;
+    public static final double kElevatorScoreMidCube = 1;
+    public static final double kElevatorScoreMidCone = 1;
+    public static final double kElevatorScoreHighCube = 1;
+    public static final double kElevatorScoreHighCone = 1;
 
     public static final double kElevatorScoreHybrid = 0;
     public static final double kElevatorIntakeDoubleSubstation = 0;
@@ -74,11 +74,11 @@ public final class Constants {
 
     public static final double kUpElevatorP = 0.1;
     public static final double kUpElevatorI = 0;
-    public static final double kUpElevatorD = 0.0005;
+    public static final double kUpElevatorD = 0.05;
 
     public static final double kDownElevatorP = 0.01;
     public static final double kDownElevatorI = 0;
-    public static final double kDownElevatorD = 0.0005;
+    public static final double kDownElevatorD = 0.05;
 
     public static final int kUpElevatorSlot = 0;
     public static final int kDownElevatorSlot = 1;
