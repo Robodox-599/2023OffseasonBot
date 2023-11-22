@@ -42,10 +42,10 @@ public final class Constants {
 
     public static final SwerveDriveKinematics swerveKinematics =
         new SwerveDriveKinematics(
-            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
             new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0),
-            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0));
+            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
+            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
     /* Swerve Voltage Compensation */
     public static final double voltageComp = 12.0;
@@ -82,33 +82,33 @@ public final class Constants {
 
     /* Neutral Modes */
     public static final IdleMode angleNeutralMode = IdleMode.kCoast;
-    public static final IdleMode driveNeutralMode = IdleMode.kCoast;
+    public static final IdleMode driveNeutralMode = IdleMode.kBrake;
   }
 
   public static class FrontLeftModule {
-    public static final int driveMotorID = 0;
-    public static final int angleMotorID = 0;
+    public static final int driveMotorID = 3;
+    public static final int angleMotorID = 4;
     public static final boolean driveEncInvert = false;
     public static final boolean angleEncInvert = false;
   }
 
   public static class FrontRightModule {
-    public static final int driveMotorID = 0;
-    public static final int angleMotorID = 0;
+    public static final int driveMotorID = 9;
+    public static final int angleMotorID = 2;
     public static final boolean driveEncInvert = false;
     public static final boolean angleEncInvert = false;
   }
 
   public static class BackLeftModule {
-    public static final int driveMotorID = 0;
-    public static final int angleMotorID = 0;
+    public static final int driveMotorID = 5;
+    public static final int angleMotorID = 6;
     public static final boolean driveEncInvert = false;
     public static final boolean angleEncInvert = false;
   }
 
   public static class BackRightModule {
-    public static final int driveMotorID = 0;
-    public static final int angleMotorID = 0;
+    public static final int driveMotorID = 7;
+    public static final int angleMotorID = 8;
     public static final boolean driveEncInvert = false;
     public static final boolean angleEncInvert = false;
   }
