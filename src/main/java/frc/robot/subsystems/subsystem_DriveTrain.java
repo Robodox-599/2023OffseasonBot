@@ -76,7 +76,7 @@ public class subsystem_DriveTrain extends SubsystemBase {
       /* Linear Velocity */
       double vel_x = translation.getX();
       double vel_y = translation.getY();
- 
+      
       /* Arbitrary Variable Definitions */
       double arb_A = vel_x - omega_x;
       double arb_B = vel_x + omega_x;
