@@ -4,12 +4,18 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,9 +33,16 @@ public class subsystem_DriveTrain extends SubsystemBase {
   private SwerveModule m_FrontRight;
   private SwerveModule m_BackLeft;
   private SwerveModule m_BackRight;
-  private Pigeon2 m_Gyro;
+  private WPI_Pigeon2 m_Gyro;
 
   private boolean m_IsMathed;
+
+  private SwerveDriveKinematics m_Kinematics;
+  private SwerveModulePosition[] m_ModulePositions;
+  private SwerveDrivePoseEstimator m_PoseEstimator;
+
+  private Vector<N3> vec1 = VecBuilder.fill(0.7, 0.7, 0.1);
+  private Vector<N3> vec2 = VecBuilder.fill(0.3, 0.3, 0.9);
 
   public subsystem_DriveTrain() {
     m_FrontLeft = new SwerveModule(
@@ -56,13 +69,31 @@ public class subsystem_DriveTrain extends SubsystemBase {
                       BackRightModule.driveEncInvert,
                       BackRightModule.angleEncInvert);
     
-    m_Gyro = new Pigeon2(12, "BarryDriveCANivore");
+    m_Gyro = new WPI_Pigeon2(12, "BarryDriveCANivore");
     Timer.delay(0.5);
     m_Gyro.configFactoryDefault();
     Timer.delay(0.5);
     m_Gyro.setYaw(0.0);
 
     m_IsMathed = false;
+
+    m_Kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft,
+                                            SwerveConstants.frontRight,
+                                            SwerveConstants.backLeft,
+                                            SwerveConstants.backRight);
+
+    m_ModulePositions = new SwerveModulePosition[4];
+    m_ModulePositions[0] = m_FrontLeft.getPosition();
+    m_ModulePositions[1] = m_FrontRight.getPosition();
+    m_ModulePositions[2] = m_BackLeft.getPosition();
+    m_ModulePositions[3] = m_BackRight.getPosition();
+
+    m_PoseEstimator = new SwerveDrivePoseEstimator(m_Kinematics,
+                                                  new Rotation2d(),
+                                                  m_ModulePositions,
+                                                  new Pose2d(0.0, 0.0, 
+                                                  new Rotation2d()), 
+                                                  vec1, vec2);
   }
 
   public void drive(Translation2d translation, double zRot){
@@ -142,6 +173,8 @@ public class subsystem_DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("FR Current Angle", m_FrontRight.getAngle());
     SmartDashboard.putNumber("BL Current Angle", m_BackLeft.getAngle());
     SmartDashboard.putNumber("BR Current Angle", m_BackRight.getAngle());
-    SmartDashboard.putNumber("Pose Yaw", m_Gyro.getYaw());
+    SmartDashboard.putNumber("Gyro Yaw", m_Gyro.getYaw());
+    SmartDashboard.putNumber("Pose Yaw", m_PoseEstimator.getEstimatedPosition().getRotation().getDegrees());
+    m_PoseEstimator.update(m_Gyro.getRotation2d(), m_ModulePositions);
   }
 }

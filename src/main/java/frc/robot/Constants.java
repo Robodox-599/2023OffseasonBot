@@ -40,12 +40,14 @@ public final class Constants {
     public static final double driveGearRatio = (6.75 / 1.0); // 6.75:1
     public static final double angleGearRatio = (150.0 / 7.0); // 150/7:1
 
+    public static final Translation2d frontLeft = new Translation2d(Units.inchesToMeters(wheelBase / 2.0), Units.inchesToMeters(trackWidth / 2.0));
+    public static final Translation2d frontRight = new Translation2d(Units.inchesToMeters(wheelBase / 2.0), -Units.inchesToMeters(trackWidth / 2.0));
+    public static final Translation2d backLeft = new Translation2d(-Units.inchesToMeters(wheelBase / 2.0), Units.inchesToMeters(trackWidth / 2.0));
+    public static final Translation2d backRight = new Translation2d(-Units.inchesToMeters(wheelBase / 2.0), -Units.inchesToMeters(trackWidth / 2.0));
+
     public static final SwerveDriveKinematics swerveKinematics =
         new SwerveDriveKinematics(
-            new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-            new Translation2d(wheelBase / 2.0, -trackWidth / 2.0),
-            new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-            new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
+            frontLeft, frontRight, backLeft, backRight);
 
     /* Swerve Voltage Compensation */
     public static final double voltageComp = 12.0;
