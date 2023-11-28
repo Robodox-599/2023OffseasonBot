@@ -103,11 +103,28 @@ public class subsystem_DriveTrain extends SubsystemBase {
     //   /* Angular Velocity */
     //   double omega_x = zRot * SwerveConstants.wheelBase / 2.0;
     //   double omega_y = zRot * SwerveConstants.trackWidth / 2.0;
+    //   /* Angular Velocity */
+    //   double omega_x = zRot * SwerveConstants.wheelBase / 2.0;
+    //   double omega_y = zRot * SwerveConstants.trackWidth / 2.0;
       
     //   /* Linear Velocity */
     //   double vel_x = translation.getX();
     //   double vel_y = translation.getY();
+    //   /* Linear Velocity */
+    //   double vel_x = translation.getX();
+    //   double vel_y = translation.getY();
       
+    //   /* Arbitrary Variable Definitions */
+    //   double arb_A = vel_x - omega_x;
+    //   double arb_B = vel_x + omega_x;
+    //   double arb_C = vel_y - omega_y;
+    //   double arb_D = vel_y + omega_y;
+
+    //   /* Front Left Module */
+    //   double vel_FL = Math.hypot(arb_B, arb_D);
+    //   double theta_FL = Math.atan2(arb_B, arb_D) * 180.0 / Math.PI;
+    //   SmartDashboard.putNumber("FL Mathed Angle", theta_FL);
+    //   moduleStates[0] = new SwerveModuleState(vel_FL, Rotation2d.fromDegrees(theta_FL));
     //   /* Arbitrary Variable Definitions */
     //   double arb_A = vel_x - omega_x;
     //   double arb_B = vel_x + omega_x;
@@ -125,7 +142,17 @@ public class subsystem_DriveTrain extends SubsystemBase {
     //   double theta_FR = Math.atan2(arb_B, arb_C) * 180.0 / Math.PI;
     //   SmartDashboard.putNumber("FR Mathed Angle", theta_FR);
     //   moduleStates[1] = new SwerveModuleState(vel_FR, Rotation2d.fromDegrees(theta_FR));
+    //   /* Front Right Module */
+    //   double vel_FR = Math.hypot(arb_B, arb_C);
+    //   double theta_FR = Math.atan2(arb_B, arb_C) * 180.0 / Math.PI;
+    //   SmartDashboard.putNumber("FR Mathed Angle", theta_FR);
+    //   moduleStates[1] = new SwerveModuleState(vel_FR, Rotation2d.fromDegrees(theta_FR));
 
+    //   /* Back Left Module */
+    //   double vel_BL = Math.hypot(arb_A, arb_D);
+    //   double theta_BL = Math.atan2(arb_A, arb_D) * 180.0 / Math.PI;
+    //   SmartDashboard.putNumber("BL Mathed Angle", theta_BL);
+    //   moduleStates[2] = new SwerveModuleState(vel_BL, Rotation2d.fromDegrees(theta_BL));
     //   /* Back Left Module */
     //   double vel_BL = Math.hypot(arb_A, arb_D);
     //   double theta_BL = Math.atan2(arb_A, arb_D) * 180.0 / Math.PI;
@@ -137,7 +164,14 @@ public class subsystem_DriveTrain extends SubsystemBase {
     //   double theta_BR = Math.atan2(arb_A, arb_C) * 180.0 / Math.PI;
     //   SmartDashboard.putNumber("BR Mathed Angle", theta_BR);
     //   moduleStates[3] = new SwerveModuleState(vel_BR, Rotation2d.fromDegrees(theta_BR));
+    //   /* Back Right Module */
+    //   double vel_BR = Math.hypot(arb_A, arb_C);
+    //   double theta_BR = Math.atan2(arb_A, arb_C) * 180.0 / Math.PI;
+    //   SmartDashboard.putNumber("BR Mathed Angle", theta_BR);
+    //   moduleStates[3] = new SwerveModuleState(vel_BR, Rotation2d.fromDegrees(theta_BR));
 
+    //   SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstants.maxSpeed);
+    //   setModuleStates(moduleStates);
     //   SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstants.maxSpeed);
     //   setModuleStates(moduleStates);
 
