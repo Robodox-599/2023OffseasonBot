@@ -31,7 +31,9 @@ public class command_DriveTeleop extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_DriveTrain.stopModules();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -45,7 +47,7 @@ public class command_DriveTeleop extends CommandBase {
     zRot = Math.abs(zRot) > OperatorConstants.kDeadband ? zRot : 0.0;
 
     m_DriveTrain.drive(
-      new Translation2d(xSpeed, ySpeed).times(SwerveConstants.maxSpeed),
+      xSpeed*SwerveConstants.maxSpeed, ySpeed*SwerveConstants.maxSpeed,
       zRot * SwerveConstants.maxAngularVelocity);
   }
 

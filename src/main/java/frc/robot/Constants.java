@@ -21,7 +21,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDeadband = 0.01;
+    public static final double kDeadband = 0.1;
     public static final int kLYAxis = 1;
     public static final int kLXAxis = 0;
     public static final int kRXAxis = 4;
@@ -57,9 +57,9 @@ public final class Constants {
     public static final int driveContinuousCurrentLimit = 80;
 
     /* Angle Motor PID Values */
-    public static final double angleKP = 0.01;
+    public static final double angleKP = 0.15;
     public static final double angleKI = 0.0;
-    public static final double angleKD = 0.0;
+    public static final double angleKD = 0.05;
     public static final double angleKFF = 0.0;
 
     /* Drive Motor PID Values */
@@ -79,7 +79,7 @@ public final class Constants {
     public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
     /* Swerve Profiling Values */
-    public static final double maxSpeed = 4.5; // meters per second
+    public static final double maxSpeed = 3; // meters per second
     public static final double maxAngularVelocity = 11.5;
 
     /* Neutral Modes */

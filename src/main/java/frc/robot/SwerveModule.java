@@ -3,6 +3,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 // import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -10,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.CANSparkMaxUtil.Usage;
 import frc.robot.Constants.SwerveConstants;
 
@@ -21,6 +23,8 @@ public class SwerveModule {
     
     private SparkMaxPIDController m_DrivePID;
     private SparkMaxPIDController m_AnglePID;
+    // private boolean positive;
+    private double m_LastAngle;
     
     // private final SimpleMotorFeedforward m_Feedforward = 
     //     new SimpleMotorFeedforward(SwerveConstants.driveKS,
@@ -30,19 +34,22 @@ public class SwerveModule {
     public SwerveModule(int driveMotorID, int angleMotorID,
                         boolean driveEncInvert, boolean angleEncInvert){
         m_DriveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-        m_AngleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
         m_DriveMotor.setInverted(driveEncInvert);
-        m_AngleMotor.setInverted(angleEncInvert);
-
         m_DriveEncoder = m_DriveMotor.getEncoder();
-        m_AngleEncoder = m_AngleMotor.getEncoder();
+        m_DrivePID = m_DriveMotor.getPIDController();
+        configDriveMotor();
 
+        m_AngleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
+        m_AngleEncoder = m_AngleMotor.getEncoder();
+        m_AngleMotor.setInverted(angleEncInvert);
+        
         m_AnglePID = m_AngleMotor.getPIDController();
         m_AnglePID.getPositionPIDWrappingEnabled();
         m_AnglePID.setPositionPIDWrappingMaxInput(180);
         m_AnglePID.setPositionPIDWrappingMinInput(-180);
+        configAngleMotor();
 
-        m_DrivePID = m_DriveMotor.getPIDController();
+        m_LastAngle = getPosition().angle.getDegrees();
     }
 
     public void configAngleMotor(){
@@ -62,6 +69,7 @@ public class SwerveModule {
         Timer.delay(0.5);
         m_AngleMotor.burnFlash();
         Timer.delay(0.5);
+        m_AngleEncoder.setPosition(0.0);
     }
 
     public void configDriveMotor(){
@@ -87,7 +95,8 @@ public class SwerveModule {
 
 
     public double getAngle() { 
-        return m_AngleEncoder.getPosition();
+        SmartDashboard.putNumber("Current", m_AngleMotor.getOutputCurrent());
+        return getPosition().angle.getDegrees();
     }
 
     public double getLinearVelocity() {
@@ -110,9 +119,30 @@ public class SwerveModule {
 
     public void setDesiredState(SwerveModuleState state) {
         state = SwerveModuleState.optimize(state, getState().angle);
-        m_DriveMotor.set(state.speedMetersPerSecond);
-    }
+        m_DriveMotor.set(state.speedMetersPerSecond / SwerveConstants.maxSpeed);
+        double minSpeed = SwerveConstants.maxSpeed * 0.01;
+        double angle = Math.abs(state.speedMetersPerSecond) <= minSpeed ? m_LastAngle : state.angle.getDegrees();
+        // m_AnglePID.setReference(angle, ControlType.kPosition);
+        
+        // if(getAngle()>0){
+        //      positive = true;
+        // } else{
+        //      positive = false;
+        // }
+        // if(Math.abs(Math.signum(getAngle()) * (Math.abs(getAngle()) % 180) - angle) <= 10){
+            
+        // } else {
+            
+        // }
 
+        if(Math.abs(Math.signum(getAngle()) * (Math.abs(getAngle()) % 180) - angle) > 10){
+            m_AngleMotor.set(0.1 * Math.signum(getAngle()));
+        } else {
+            m_AngleMotor.set(0.0);
+        }
+        // SmartDashboard.putNumber("Reference", state.angle.getDegrees());
+        m_LastAngle = angle;
+    }
     public void stop() {
         m_DriveMotor.set(0);
         m_AngleMotor.set(0);
