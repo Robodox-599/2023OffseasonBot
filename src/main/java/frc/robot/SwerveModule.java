@@ -37,12 +37,12 @@ public class SwerveModule {
     //                                 SwerveConstants.driveKA);
 
     public SwerveModule(int driveMotorID, int angleMotorID,
-                        boolean driveEncInvert, boolean angleEncInvert){
+                        boolean driveMotInvert, boolean angleMotInvert){
         m_DriveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         
         m_DriveEncoder = m_DriveMotor.getEncoder();
         m_DrivePID = m_DriveMotor.getPIDController();
-        m_DriveMotorInvert = driveEncInvert;
+        m_DriveMotorInvert = driveMotInvert;
         m_DriveEncoder.setPositionConversionFactor(SwerveConstants.driveConversionPositionFactor);
         m_DriveEncoder.setVelocityConversionFactor(SwerveConstants.driveConversionVelocityFactor);
         configDriveMotor();
@@ -50,7 +50,7 @@ public class SwerveModule {
         m_AngleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
         m_AngleEncoder = m_AngleMotor.getEncoder();
         m_AngleEncoder.setPositionConversionFactor(SwerveConstants.angleConversionFactor);
-        m_AngleMotorInvert = angleEncInvert;
+        m_AngleMotorInvert = angleMotInvert;
         
         m_AnglePID = m_AngleMotor.getPIDController();
         m_AnglePID.setPositionPIDWrappingEnabled(true);

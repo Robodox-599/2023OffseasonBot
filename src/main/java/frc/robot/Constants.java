@@ -90,28 +90,28 @@ public final class Constants {
   public static class FrontLeftModule {
     public static final int driveMotorID = 3;
     public static final int angleMotorID = 4;
-    public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = true;
+    public static final boolean driveMotInvert = false;
+    public static final boolean angleMotInvert = true;
   }
 
   public static class FrontRightModule {
     public static final int driveMotorID = 9;
     public static final int angleMotorID = 2;
-    public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = true;
+    public static final boolean driveMotInvert = false;
+    public static final boolean angleMotInvert = true;
   }
 
   public static class BackLeftModule {
     public static final int driveMotorID = 5;
     public static final int angleMotorID = 6;
-    public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = true;
+    public static final boolean driveMotInvert = false;
+    public static final boolean angleMotInvert = true;
   }
 
   public static class BackRightModule {
     public static final int driveMotorID = 7;
     public static final int angleMotorID = 8;
-    public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = true;
+    public static final boolean driveMotInvert = false;
+    public static final boolean angleMotInvert = true;
   }
 }

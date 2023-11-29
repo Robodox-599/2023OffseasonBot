@@ -47,7 +47,8 @@ public class command_DriveTeleop extends CommandBase {
     zRot = Math.abs(zRot) > OperatorConstants.kDeadband ? zRot : 0.0;
 
     m_DriveTrain.drive(
-      xSpeed*SwerveConstants.maxSpeed, ySpeed*SwerveConstants.maxSpeed,
+      xSpeed * SwerveConstants.maxSpeed, 
+      ySpeed * SwerveConstants.maxSpeed,
       zRot * SwerveConstants.maxAngularVelocity);
   }
 
