@@ -59,7 +59,7 @@ public final class Constants {
     /* Angle Motor PID Values */
     public static final double angleKP = 0.15;
     public static final double angleKI = 0.0;
-    public static final double angleKD = 0.05;
+    public static final double angleKD = 0.0;
     public static final double angleKFF = 0.0;
 
     /* Drive Motor PID Values */
@@ -74,9 +74,9 @@ public final class Constants {
     public static final double driveKA = 0.0;
 
     /* Drive Motor Conversion Factors */
-    public static final double driveConversionPositionFactor = (wheelDiameter * Math.PI) / driveGearRatio;
+    public static final double driveConversionPositionFactor = (wheelDiameter * Math.PI) / (42.0 * driveGearRatio);
     public static final double driveConversionVelocityFactor = driveConversionPositionFactor / 60.0;
-    public static final double angleConversionFactor = 360.0 / angleGearRatio;
+    public static final double angleConversionFactor = 360.0 / (42.0 * angleGearRatio);
 
     /* Swerve Profiling Values */
     public static final double maxSpeed = 3; // meters per second
@@ -91,27 +91,27 @@ public final class Constants {
     public static final int driveMotorID = 3;
     public static final int angleMotorID = 4;
     public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = false;
+    public static final boolean angleEncInvert = true;
   }
 
   public static class FrontRightModule {
     public static final int driveMotorID = 9;
     public static final int angleMotorID = 2;
     public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = false;
+    public static final boolean angleEncInvert = true;
   }
 
   public static class BackLeftModule {
     public static final int driveMotorID = 5;
     public static final int angleMotorID = 6;
     public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = false;
+    public static final boolean angleEncInvert = true;
   }
 
   public static class BackRightModule {
     public static final int driveMotorID = 7;
     public static final int angleMotorID = 8;
     public static final boolean driveEncInvert = false;
-    public static final boolean angleEncInvert = false;
+    public static final boolean angleEncInvert = true;
   }
 }
