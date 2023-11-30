@@ -11,6 +11,7 @@ import frc.robot.commands.command_DriveTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.subsystem_DriveTrain;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -45,7 +46,7 @@ public class RobotContainer {
       () -> -driveRad.getRawAxis(strafeAxis),
       () -> -driveRad.getRawAxis(rotationAxis)
     ));
-
+    SmartDashboard.putNumber("Y Input", -driveRad.getRawAxis(strafeAxis));
     configureBindings();
   }
 

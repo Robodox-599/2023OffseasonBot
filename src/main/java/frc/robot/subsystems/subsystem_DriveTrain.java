@@ -68,9 +68,9 @@ public class subsystem_DriveTrain extends SubsystemBase {
                       BackRightModule.angleMotInvert);
     
     m_Gyro = new WPI_Pigeon2(12, "rio");
-    Timer.delay(0.5);
+    Timer.delay(0.2);
     m_Gyro.configFactoryDefault();
-    Timer.delay(0.5);
+    Timer.delay(0.2);
     m_Gyro.setYaw(0.0);
 
     m_Kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeft,
@@ -93,6 +93,7 @@ public class subsystem_DriveTrain extends SubsystemBase {
   }
 
   public void drive(double xSpeed, double ySpeed, double zRot){
+    SmartDashboard.putNumber("Y Speed", ySpeed);
     SwerveModuleState[] moduleStates = 
           SwerveConstants.swerveKinematics.toSwerveModuleStates(
             ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -100,13 +101,13 @@ public class subsystem_DriveTrain extends SubsystemBase {
       SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstants.maxSpeed);
       setModuleStates(moduleStates);
 
-    // SmartDashboard.putNumber("FL Desired Speed", moduleStates[0].speedMetersPerSecond);
+    SmartDashboard.putNumber("FL Desired Speed", moduleStates[0].speedMetersPerSecond);
     SmartDashboard.putNumber("FL Desired Angle", moduleStates[0].angle.getDegrees());
-    // SmartDashboard.putNumber("FR Desired Speed", moduleStates[1].speedMetersPerSecond);
+    SmartDashboard.putNumber("FR Desired Speed", moduleStates[1].speedMetersPerSecond);
     SmartDashboard.putNumber("FR Desired Angle", moduleStates[1].angle.getDegrees());
-    // SmartDashboard.putNumber("BL Desired Speed", moduleStates[2].speedMetersPerSecond);
+    SmartDashboard.putNumber("BL Desired Speed", moduleStates[2].speedMetersPerSecond);
     SmartDashboard.putNumber("BL Desired Angle", moduleStates[2].angle.getDegrees());
-    // SmartDashboard.putNumber("BR Desired Speed", moduleStates[3].speedMetersPerSecond);
+    SmartDashboard.putNumber("BR Desired Speed", moduleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("BR Desired Angle", moduleStates[3].angle.getDegrees());
   }
   
@@ -132,6 +133,10 @@ public class subsystem_DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("FR Current Angle", m_FrontRight.getAngle());
     SmartDashboard.putNumber("BL Current Angle", m_BackLeft.getAngle());
     SmartDashboard.putNumber("BR Current Angle", m_BackRight.getAngle());
+    SmartDashboard.putNumber("FL Enc Angle", m_FrontLeft.getAngularPos());
+    SmartDashboard.putNumber("FR Enc Angle", m_FrontRight.getAngularPos());
+    SmartDashboard.putNumber("BL Enc Angle", m_BackLeft.getAngularPos());
+    SmartDashboard.putNumber("BR Enc Angle", m_BackRight.getAngularPos());
     SmartDashboard.putNumber("Gyro Yaw", m_Gyro.getYaw());
     SmartDashboard.putNumber("Pose Yaw", m_PoseEstimator.getEstimatedPosition().getRotation().getDegrees());
     m_PoseEstimator.update(m_Gyro.getRotation2d(), m_ModulePositions);

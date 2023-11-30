@@ -43,7 +43,7 @@ public class command_DriveTeleop extends CommandBase {
     double zRot = m_ZRot.getAsDouble();
 
     xSpeed = Math.abs(xSpeed) > OperatorConstants.kDeadband ? xSpeed : 0.0;
-    ySpeed = Math.abs(ySpeed) > OperatorConstants.kDeadband ? xSpeed : 0.0;
+    ySpeed = Math.abs(ySpeed) > OperatorConstants.kDeadband ? ySpeed : 0.0;
     zRot = Math.abs(zRot) > OperatorConstants.kDeadband ? zRot : 0.0;
 
     m_DriveTrain.drive(

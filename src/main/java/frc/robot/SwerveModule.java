@@ -43,19 +43,21 @@ public class SwerveModule {
         m_DriveEncoder = m_DriveMotor.getEncoder();
         m_DrivePID = m_DriveMotor.getPIDController();
         m_DriveMotorInvert = driveMotInvert;
-        m_DriveEncoder.setPositionConversionFactor(SwerveConstants.driveConversionPositionFactor);
-        m_DriveEncoder.setVelocityConversionFactor(SwerveConstants.driveConversionVelocityFactor);
+        // m_DriveEncoder.setPositionConversionFactor(SwerveConstants.driveConversionPositionFactor);
+        // m_DriveEncoder.setVelocityConversionFactor(SwerveConstants.driveConversionVelocityFactor);
         configDriveMotor();
 
         m_AngleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
         m_AngleEncoder = m_AngleMotor.getEncoder();
-        m_AngleEncoder.setPositionConversionFactor(SwerveConstants.angleConversionFactor);
+        // m_AngleEncoder.setPositionConversionFactor(SwerveConstants.angleConversionFactor);
         m_AngleMotorInvert = angleMotInvert;
         
         m_AnglePID = m_AngleMotor.getPIDController();
         m_AnglePID.setPositionPIDWrappingEnabled(true);
         m_AnglePID.setPositionPIDWrappingMaxInput(180);
         m_AnglePID.setPositionPIDWrappingMinInput(-180);
+        // m_AnglePID.setPositionPIDWrappingMaxInput(360.0);
+        // m_AnglePID.setPositionPIDWrappingMinInput(0.0);
         configAngleMotor();
 
         m_LastAngle = getState().angle.getDegrees();
@@ -63,7 +65,7 @@ public class SwerveModule {
 
     public void configAngleMotor(){
         m_AngleMotor.restoreFactoryDefaults();
-        Timer.delay(0.5);
+        Timer.delay(0.2);
         CANSparkMaxUtil.setCANSparkMaxBusUsage(m_AngleMotor, Usage.kPositionOnly);
         m_AngleMotor.setSmartCurrentLimit(SwerveConstants.angleContinuousCurrentLimit);
         m_AngleMotor.setInverted(m_AngleMotorInvert);
@@ -75,15 +77,15 @@ public class SwerveModule {
         m_AnglePID.setFF(SwerveConstants.angleKFF);
         
         m_AngleMotor.enableVoltageCompensation(SwerveConstants.voltageComp);
-        Timer.delay(0.5);
+        Timer.delay(0.2);
         m_AngleMotor.burnFlash();
-        Timer.delay(0.5);
+        Timer.delay(0.2);
         m_AngleEncoder.setPosition(0.0);
     }
 
     public void configDriveMotor(){
         m_DriveMotor.restoreFactoryDefaults();
-        Timer.delay(0.5);
+        Timer.delay(0.2);
         CANSparkMaxUtil.setCANSparkMaxBusUsage(m_DriveMotor, Usage.kAll);
         m_DriveMotor.setSmartCurrentLimit(SwerveConstants.driveContinuousCurrentLimit);
         m_DriveMotor.setInverted(m_DriveMotorInvert);
@@ -96,16 +98,16 @@ public class SwerveModule {
 
         m_DriveMotor.enableVoltageCompensation(SwerveConstants.voltageComp);
 
-        Timer.delay(0.5);
+        Timer.delay(0.2);
         m_DriveMotor.burnFlash();
-        Timer.delay(0.5);
+        Timer.delay(0.2);
         m_DriveEncoder.setPosition(0.0);
     }
 
 
     public double getAngle() { 
         SmartDashboard.putNumber("Current", m_AngleMotor.getOutputCurrent());
-        double pos = Units.degreesToRadians(m_AngleEncoder.getPosition());
+        double pos = neoToDegrees(m_AngleEncoder.getPosition());
         if(pos < -360.0){
             pos = pos % -360.0;
         }
@@ -118,6 +120,7 @@ public class SwerveModule {
         if(pos >= 180.0 && pos < 360.0){
             pos -= 360.0;
         }
+        // m_AngleEncoder.setPosition(degreesToNEO(pos));
         return pos;
     }
 
@@ -127,6 +130,10 @@ public class SwerveModule {
 
     public double getAngularVelocity() {
         return m_AngleEncoder.getVelocity();
+    }
+
+    public double getAngularPos(){
+        return neoToDegrees(m_AngleEncoder.getPosition());
     }
 
     public SwerveModuleState getState() {
@@ -159,48 +166,44 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        state = optimize(state, getState().angle);
+        state = SwerveModuleState.optimize(state, getState().angle);
+        if (Math.abs(state.speedMetersPerSecond)<0.001){
+            stop();
+            return;
+        }
         m_DriveMotor.set(state.speedMetersPerSecond / SwerveConstants.maxSpeed);
         double minSpeed = SwerveConstants.maxSpeed * 0.01;
         double angle = Math.abs(state.speedMetersPerSecond) <= minSpeed ? getAngle() : state.angle.getDegrees();
-        if(angle < 180.0 && angle > 179.0){
-            angle = 180.0;
-        }
-        if(angle > -180.0 && angle < -179.0){
-            angle = -180.0;
-        }
-        if(angle < 1.0 && angle > 0.0){
-            angle = 0.0;
-        }
-        if(angle > -1.0 && angle < 0.0){
-            angle = 0.0;
-        }
+        // if(angle < 180.0 && angle > 179.0){
+        //     angle = 180.0;
+        // }
+        // if(angle > -180.0 && angle < -179.0){
+        //     angle = -180.0;
+        // }
+        // if(angle < 1.0 && angle > 0.0){
+        //     angle = 0.0;
+        // }
+        // if(angle > -1.0 && angle < 0.0){
+        //     angle = 0.0;
+        // }
         m_AnglePID.setReference(angle, ControlType.kPosition);
             
-        // if(getAngle()>0){
-        //     if (((getAngle()%360)-angle)>10){
-        //      m_AngleMotor.set(0.1 * -1);
-
-        //     }
-        // } else if(getAngle()<0){
-        //     if (((Math.abs(getAngle())%360)-angle)>10){
-        //      m_AngleMotor.set(0.1);
-
-        //     }
-        // } else{
-        //     m_AngleMotor.set(0.0);
-        // }
-        // if(Math.abs(Math.signum(getAngle()) * (Math.abs(getAngle()) % 360) - angle) > 10){
-        //     m_AngleMotor.set(0.1 * Math.signum(getAngle()));
-        // } else {
-        //     m_AngleMotor.set(0.0);
-        // }
-        // // SmartDashboard.putNumber("Reference", state.angle.getDegrees());
         m_LastAngle = angle;
     }
+
     public void stop() {
         m_DriveMotor.set(0);
         m_AngleMotor.set(0);
+    }
+
+    public double degreesToNEO(double degrees){
+        return degrees / SwerveConstants.angleConversionFactor;
+        // return degrees;
+    }
+
+    public double neoToDegrees(double counts){
+        // return counts * SwerveConstants.angleConversionFactor;
+        return counts / SwerveConstants.angleGearRatio;
     }
 }
 
