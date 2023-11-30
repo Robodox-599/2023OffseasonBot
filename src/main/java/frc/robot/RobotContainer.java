@@ -118,7 +118,9 @@ public class RobotContainer {
 
     doubleSub.onTrue(cGroup_Elevator.doubleSubstationIntake(s_Elevator, s_Wrist, s_Intake, s_LED));
 
-    groundIntake.onTrue(cGroup_Elevator.groundIntake(s_Elevator, s_Wrist, s_Intake, s_LED));
+    //groundIntake.onTrue(cGroup_Elevator.groundIntake(s_Elevator, s_Wrist, s_Intake, s_LED));
+
+    groundIntake.onTrue(s_Intake.toggleIntake());
 
     stow.onTrue(cGroup_Elevator.toStow(s_Elevator, s_Wrist));
 

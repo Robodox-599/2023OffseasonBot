@@ -62,7 +62,7 @@ public class cGroup_Elevator{
     return Commands.sequence(
       // new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
       new command_MoveElevator(elevator, () -> {return ElevatorConstants.kElevatorStow;}, () -> {return false;}, () -> {return ElevatorConstants.elevatorThreshold;}),
-      new WaitUntilCommand( () -> {return elevator.getElevatorMotorPosition() < 0.5;}),
+      new WaitUntilCommand( () -> {return elevator.getElevatorMotorPosition() < 0.45;}),
       wrist.zeroWrist()
       );
   }

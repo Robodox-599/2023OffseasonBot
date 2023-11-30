@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.IntakeConstants.intakeState;
@@ -64,4 +65,12 @@ public class subsystem_Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public CommandBase toggleIntake(){
+    // implicitly require `this`
+
+    return m_IntakeMotor.get()> 0.1 ? this.runOnce(() -> m_IntakeMotor.set(0)) : 
+    this.runOnce(() -> m_IntakeMotor.set(0.5));
+}
+
 }
