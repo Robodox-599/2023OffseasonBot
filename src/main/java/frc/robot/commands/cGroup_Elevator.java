@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 
@@ -58,8 +60,9 @@ public class cGroup_Elevator{
 
   public static Command toStow(subsystem_Elevator elevator, subsystem_Wrist wrist){
     return Commands.sequence(
-      new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
+      // new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
       new command_MoveElevator(elevator, () -> {return ElevatorConstants.kElevatorStow;}, () -> {return false;}, () -> {return ElevatorConstants.elevatorThreshold;}),
+      new WaitUntilCommand( () -> {return elevator.getElevatorMotorPosition() < 0.5;}),
       wrist.zeroWrist()
       );
   }

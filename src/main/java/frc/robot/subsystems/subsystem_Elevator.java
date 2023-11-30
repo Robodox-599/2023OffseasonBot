@@ -152,9 +152,11 @@ public class subsystem_Elevator extends SubsystemBase {
     kUpI = SmartDashboard.getNumber("Up I", Constants.ElevatorConstants.kUpElevatorI);
     kUpD = SmartDashboard.getNumber("Up D", Constants.ElevatorConstants.kUpElevatorD);
 
-    m_ElevatorMotorPID.setP(Constants.ElevatorConstants.kUpElevatorP, Constants.ElevatorConstants.kUpElevatorSlot);
-    m_ElevatorMotorPID.setI(Constants.ElevatorConstants.kUpElevatorI, Constants.ElevatorConstants.kUpElevatorSlot);
-    m_ElevatorMotorPID.setD(Constants.ElevatorConstants.kUpElevatorD, Constants.ElevatorConstants.kUpElevatorSlot);
+    SmartDashboard.putNumber("Gotten Number", kUpP);
+
+    m_ElevatorMotorPID.setP(kUpP, Constants.ElevatorConstants.kUpElevatorSlot);
+    m_ElevatorMotorPID.setI(kUpI, Constants.ElevatorConstants.kUpElevatorSlot);
+    m_ElevatorMotorPID.setD(kUpD, Constants.ElevatorConstants.kUpElevatorSlot);
     
     m_ElevatorFollowerPID.setP(Constants.ElevatorConstants.kUpElevatorP, Constants.ElevatorConstants.kUpElevatorSlot);
     m_ElevatorFollowerPID.setI(Constants.ElevatorConstants.kUpElevatorI, Constants.ElevatorConstants.kUpElevatorSlot);
