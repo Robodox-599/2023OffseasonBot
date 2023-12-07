@@ -176,7 +176,7 @@ public final class Constants {
     // public static final double kElevatorScoreHighCube = 44.265/4;
     // public static final double kElevatorScoreHighCone = 53.697/4;
 
-    public static final double kElevatorScoreHybrid = 0;
+    public static final double kElevatorScoreHybrid = 0.145;
     public static final double kElevatorIntakeDoubleSubstation = 0;
     // public static final double kElevatorMotionAcceleration = 0;
     // public static final double kElevatorCruiseVelocity = 0;
@@ -193,7 +193,7 @@ public final class Constants {
     public static final int kDownElevatorSlot = 1;
 
     public static final double kBufferZone = 0;
-    public static final double targetTime = 0.5;
+    public static final double targetTime = 1.5;
 
     public static final double kManualSpeed = 1;
     public static final double elevatorThreshold = -14.0; //this prob needa be changed
@@ -207,14 +207,14 @@ public final class Constants {
 
     public static final int motorID = 12;
 
-    public static final double kWristI = 0.0;
-    public static final double kWristP = 0.05;
+    public static final double kWristI = 0.000000;
+    public static final double kWristP = 0.07;
     public static final double kWristD = 0.0005;
     public static final double start_pos = -0.5; // hard stop pos
     public static final double bufferZone = 0.0; // still needs defining
     public static final double stepperConstant = 0.1;
     public static final double targetTime = 0.1; // assuming this is a double value
-    public static final double wristThreshold = -14.0;
+    public static final double wristThreshold = 12.0;
     public static final double manualThreshold = 0.02;
 
     public static final double highConePos = 14.91; // 125.81
@@ -222,7 +222,7 @@ public final class Constants {
     public static final double midConePos = 9.96; // 84.03
     public static final double midCubePos = 9.96;
     public static final double substationPos = 10.9048; // fix
-    public static final double groundIntake = 16.809; // fix
+    public static final double groundIntake = 20.428; // fix
 
   }
 

@@ -60,9 +60,9 @@ public class cGroup_Elevator{
 
   public static Command toStow(subsystem_Elevator elevator, subsystem_Wrist wrist){
     return Commands.sequence(
-      // new command_MoveWrist(wrist, () -> {return 0;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
       new command_MoveElevator(elevator, () -> {return ElevatorConstants.kElevatorStow;}, () -> {return false;}, () -> {return ElevatorConstants.elevatorThreshold;}),
-      new WaitUntilCommand( () -> {return elevator.getElevatorMotorPosition() < 0.45;}),
+      new command_MoveWrist(wrist, () -> {return 2;}, () -> {return true;}, () -> {return WristConstants.wristThreshold;}),
+      new WaitUntilCommand( () -> {return elevator.getElevatorMotorPosition() < 0.1;}),
       wrist.zeroWrist()
       );
   }

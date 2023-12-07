@@ -37,7 +37,7 @@ public class subsystem_Wrist extends SubsystemBase {
     m_WristPID.setD(WristConstants.kWristD);
     m_WristEncoder.setPosition(WristConstants.start_pos);
     m_Motor.setVoltage(12);
-    m_Motor.setSmartCurrentLimit(5, 7, 2650/9);
+    m_Motor.setSmartCurrentLimit(7, 9, 2650/9);
   }
 
 public CommandBase resetWrist(){
@@ -66,6 +66,9 @@ public boolean isWristAtDesiredPosition(){
 }
 
 public boolean wristThreshold(double Threshold){
+  SmartDashboard.putNumber("desWristPos", desiredWristPosition);
+  SmartDashboard.putNumber("wEnc", wristEnc);
+  SmartDashboard.putNumber("Threshold", Threshold);
   return desiredWristPosition >= wristEnc ? wristEnc > Threshold : wristEnc < Threshold;
 }
 

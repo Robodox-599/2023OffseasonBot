@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.WristConstants;
 import frc.robot.subsystems.subsystem_Wrist;
@@ -54,7 +55,9 @@ public class command_MoveWrist extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    SmartDashboard.putBoolean("cool1", m_IsWait.getAsBoolean() && m_Timer.get() < WristConstants.targetTime);
     if(m_IsWait.getAsBoolean() && m_Timer.get() < WristConstants.targetTime){
+      SmartDashboard.putNumber("gad", m_Threshold.getAsDouble());
       return m_Wrist.wristThreshold(m_Threshold.getAsDouble());
     }
     else{
